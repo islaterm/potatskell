@@ -319,6 +319,18 @@ testNumberOfHits = describe "numberOfHits function:" $ do
   it "For all xs : numberOfHits False xs = 0" $ property $ \xs ->
     numberOfHits (const False) (xs :: [Int]) == 0
 
+{-
+  Let X be a set of arbitrary size.
+  Let p, q be properties over the values of X.
+  Let:
+    - A:    the set of values in X that have the p property.
+    - B:    the set of values in X that have the q property.
+    - AuB:  the set of values in X that have either the p or q properties.
+    - AnB:  the set of values in X that have both p and q properties.
+
+  Then, for any X, p and q we have that:
+    |AuB| = |A| + |B| - |AnB|  
+-}
 testExtraNumberOfHits :: Spec
 testExtraNumberOfHits =
   describe "Inclusion-Exclusion principle:"
