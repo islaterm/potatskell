@@ -284,13 +284,26 @@ testEffPow :: Spec
 testEffPow = describe "effPow function:" $ do
   it "For all a, b, n and n >= 0 => (a * b)^n = a^n * b^n"
     $ property
-    $ \a b n ->n >=  0==> effPow ((a :: Int) * b) (n :: Int)==  (effPow a n * effPow b n)
+    $ \a b n ->
+        n
+          >=  0
+          ==> effPow ((a :: Int) * b) (n :: Int)
+          ==  (effPow a n * effPow b n)
   it "For all a, m, n and m, n >= 0 => a^(m + n) == a^m * a^n"
     $ property
-    $ \a m n -> ((m::Int) >= 0) && ((n::Int) >= 0) ==> effPow (a::Int) (m + n) == effPow a m * effPow a n
+    $ \a m n ->
+        ((m :: Int) >= 0)
+          &&  ((n :: Int) >= 0)
+          ==> effPow (a :: Int) (m + n)
+          ==  effPow a          m
+          *   effPow a          n
 
--- testPay :: Spec
--- testPay = describe "testPay function:"  $ do
+testPay :: Spec
+testPay =
+  describe "testPay function:"
+    $ it "For all n >= 8 => 3a + 5n = n"
+    $ property
+    $ \n -> (n :: Int) >= 8 ==> (3 * fst (pay n) + 5 * snd (pay n)) == n
 
 -- testNumberOfHits :: Spec
 -- complete definicion y descomente la linea de arriba
@@ -302,7 +315,7 @@ testEffPow = describe "effPow function:" $ do
 main :: IO ()
 main = hspec $ do
   testEffPow
-  -- testPay
+  testPay
   -- testNumberOfHits
   -- testExtraNumberOfHits
 
