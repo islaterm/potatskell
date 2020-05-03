@@ -319,8 +319,17 @@ testNumberOfHits = describe "numberOfHits function:" $ do
   it "For all xs : numberOfHits False xs = 0" $ property $ \xs ->
     numberOfHits (const False) (xs :: [Int]) == 0
 
--- testExtraNumberOfHits :: Spec
--- complete definicion y descomente la linea de arriba
+testExtraNumberOfHits :: Spec
+testExtraNumberOfHits =
+  describe "Inclusion-Exclusion principle:"
+    $ it
+        "For all predicate p, q : |p(xs) or q(xs)| = |p(xs)| + |q(xs)| - |p(xs) and q(xs)|"
+    $ property
+    $ \xs a b -> (a::Int) > 0 && (b::Int) > 0 ==>
+        numberOfHits (\x -> mod x a == 0 || mod x b == 0) (xs :: [Int])
+          == numberOfHits (\x -> mod x a == 0)                 xs
+          +  numberOfHits (\x -> mod x b == 0)                 xs
+          -  numberOfHits (\x -> mod x a == 0 && mod x b == 0) xs
 
 
 main :: IO ()
@@ -328,5 +337,5 @@ main = hspec $ do
   testEffPow
   testPay
   testNumberOfHits
-  -- testExtraNumberOfHits
+  testExtraNumberOfHits
 
