@@ -300,13 +300,24 @@ testEffPow = describe "effPow function:" $ do
 
 testPay :: Spec
 testPay =
-  describe "testPay function:"
+  describe "pay function:"
     $ it "For all n >= 8 => 3a + 5n = n"
     $ property
     $ \n -> (n :: Int) >= 8 ==> (3 * fst (pay n) + 5 * snd (pay n)) == n
 
--- testNumberOfHits :: Spec
--- complete definicion y descomente la linea de arriba
+testNumberOfHits :: Spec
+testNumberOfHits = describe "numberOfHits function:" $ do
+  it
+      "For all xs, ys : numberOfHits even (xs ++ ys) = numberOfHits xs + numberOfHits ys"
+    $ property
+    $ \xs ys ->
+        numberOfHits even ((xs :: [Int]) ++ (ys :: [Int]))
+          == numberOfHits even xs
+          +  numberOfHits even ys
+  it "For all xs : numberOfHits True xs = |xs|" $ property $ \xs ->
+    numberOfHits (const True) (xs :: [Int]) == length xs
+  it "For all xs : numberOfHits False xs = 0" $ property $ \xs ->
+    numberOfHits (const False) (xs :: [Int]) == 0
 
 -- testExtraNumberOfHits :: Spec
 -- complete definicion y descomente la linea de arriba
@@ -316,6 +327,6 @@ main :: IO ()
 main = hspec $ do
   testEffPow
   testPay
-  -- testNumberOfHits
+  testNumberOfHits
   -- testExtraNumberOfHits
 
